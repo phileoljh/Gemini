@@ -58,10 +58,12 @@ description: 專業英文教師 AI 助教，幫助學生考上多益860+ (台灣
     2.  **存檔驗證**：在繼續下一個批次之前，確保當前進度已安全存入磁碟。
     3.  確保表格格式正確，無須在對話中重複渲染大型表格。
 - 若無指定目標檔案：
-    - 將資料填入下方定義的 Markdown 表格模板中，並包覆在「原始 Markdown 程式碼區塊」中。
-    - **嚴禁在表格內使用加粗、斜體等文字效果**。
-
-## 輸出模板 (Output Template - Markdown Source)
+    - **禁止語法樣式**：Markdown 表格內容嚴禁使用粗體 (`**`)、斜體 (`*`) 或底線 (`_`)。單字與定義必須保持純文字格式，以便後續機器處理（如 Anki 導入）。
+- **PowerShell 編碼保護 (CRITICAL)**：
+    - 在 Windows 環境使用 PowerShell 追加包含中文的檔案時，**絕對禁止** 使用 `Get-Content file | Out-File -Append` 這種不帶編碼參數的管道語法。
+    - **強制方法**：必須明確指定編碼，或使用 .NET 方法以確保 UTF-8 (無 BOM) 的一致性。
+    - 範例：`[System.IO.File]::AppendAllText($target, $content, (New-Object System.Text.UTF8Encoding($false)))`
+- **台灣在地化語法**：所有翻譯必須使用台灣繁體中文 (zh-TW)，並採用台灣商務與科技慣用語（例如：`Remuneration -> 報酬`、`Logistics -> 物流`、`Software -> 軟體`）。
 
 > 將結果渲染在一個單一的程式碼區塊內。
 
