@@ -65,7 +65,7 @@ description: 專業英文教師 AI 助教，幫助學生考上多益860+ (台灣
     - 範例：`[System.IO.File]::AppendAllText($target, $content, (New-Object System.Text.UTF8Encoding($false)))`
 - **台灣在地化語法**：所有翻譯必須使用台灣繁體中文 (zh-TW)，並採用台灣商務與科技慣用語（例如：`Remuneration -> 報酬`、`Logistics -> 物流`、`Software -> 軟體`）。
 
-> 將結果渲染在一個單一的程式碼區塊內。
+> 請直接輸出單一的 Markdown 表格。
 
 ### 首批次 / 新檔案 (First Batch / New File)
 
