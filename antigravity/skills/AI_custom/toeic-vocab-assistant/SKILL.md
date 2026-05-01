@@ -20,6 +20,29 @@ description: 專業英文教師 AI 助教，幫助學生考上多益860+ (台灣
 5.  **Direct_File_Action (直接檔案操作)**：若使用者提供目標檔案路徑，必須優先使用 `write_to_file` 或 `replace_file_content` 等工具直接執行寫入，禁止僅提供程式碼區塊要求使用者自行手動操作。
 6.  **No_Scripting (禁止腳本中轉)**：嚴禁撰寫任何中介程式（如 Python、Shell 腳本）來處理單字清單。AI 必須「親自理解」原始檔內容並進行轉換，以確保單字的詞意精準度與例句質量，避免程式自動處理導致的資訊流失。
 
+## 檔案處理與編碼規範 (File Handling & Encoding)
+
+> **[CRITICAL]** 以下四條規則具有最高優先權，任何寫入操作都必須嚴格遵守，違反將直接導致中文亂碼或資料損毀。
+
+1. **強制編碼標準 (Encoding Standard)**：
+   所有產出的 `.md` 或 `.txt` 檔案，無論是新建或追加，均必須嚴格遵守 **UTF-8 (No BOM)** 格式。Windows 平台預設的 Big5 / UTF-16 編碼為**禁用**格式。
+
+2. **防禦性寫入 (Defensive Write)**：
+   - 處理大型檔案（含 1,000 列或 20,000 字元以上）時，**絕對禁止**對已存在的檔案使用全檔案覆寫（`Overwrite: true`），除非是建立新檔案。
+   - 追加模式的**標準作業方法**：
+     優先調用 `replace_file_content` 進行「局部追加」。透過將檔案末尾的內容作為錨點 (Anchor)，確保資料精準接續。
+   - **工具效能優勢**：使用內建工具直接操作檔案系統，可完全避免 PowerShell 進程帶來的效能延遲與編碼轉譯錯誤（如 UTF-16 或帶 BOM 的亂碼）。
+
+3. **編碼一致性檢查 (Encoding Verification)**：
+   - 每批次寫入完成後，必須立即調用 `view_file` 讀取目標檔案的**前 5 行**，確認繁體中文字元未發生亂碼（如出現 `?`、`â€˜`、`ï¿½` 等符號即代表亂碼）。
+   - **發現亂碼時**：立即停止所有後續寫入操作，向使用者報告受影響的行號範圍，並等待指示，不得繼續追加。
+
+4. **批次大小限制 (Chunk Size Limit)**：
+   - 單次寫入的字元數建議控制在 **20,000 字元以內**，以確保終端機指令傳遞的穩定性與記憶體效率。
+   - 若單批次 200 個單字轉換後超過此上限，自動拆分為兩次寫入（各約 100 字）並分別執行編碼驗證。
+
+---
+
 ## 大規模數據處理邏輯 (Large-Scale Processing)
 
 ### 自主批次處理迴圈 (Autonomous Batch Loop)
@@ -54,6 +77,7 @@ description: 專業英文教師 AI 助教，幫助學生考上多益860+ (台灣
 
 5. **立即寫入 (Direct Write)**：
    自檢通過後，立即調用 `write_to_file`（首批）或 `replace_file_content`（追加）等工具，將本批次資料行寫入目標檔案。
+    - **寫入方式**：遵守「檔案處理與編碼規範」第 2 條，透過 `replace_file_content` 鎖定檔案末尾行進行精準追加，嚴禁全檔案覆寫。
    - 寫入後輸出進度提示：`Progress: {Processed_Count + 200} / {Target_Total}`
    - 更新 `Processed_Count += 200`、`Current_Batch += 1`
 
@@ -90,10 +114,7 @@ description: 專業英文教師 AI 助教，幫助學生考上多益860+ (台灣
     3.  確保表格格式正確，無須在對話中重複渲染大型表格。
 - 若無指定目標檔案：
     - **禁止語法樣式**：Markdown 表格內容嚴禁使用粗體 (`**`)、斜體 (`*`) 或底線 (`_`)。單字與定義必須保持純文字格式，以便後續機器處理（如 Anki 導入）。
-- **PowerShell 編碼保護 (CRITICAL)**：
-    - 在 Windows 環境使用 PowerShell 追加包含中文的檔案時，**絕對禁止** 使用 `Get-Content file | Out-File -Append` 這種不帶編碼參數的管道語法。
-    - **強制方法**：必須明確指定編碼，或使用 .NET 方法以確保 UTF-8 (無 BOM) 的一致性。
-    - 範例：`[System.IO.File]::AppendAllText($target, $content, (New-Object System.Text.UTF8Encoding($false)))`
+- **工具編碼保護 (CRITICAL)**：詳見本文件頂部的「**檔案處理與編碼規範**」章節，嚴格遵守第 2 條（防禦性寫入）與第 3 條（編碼一致性檢查）的規定，確保輸出為 UTF-8 (No BOM)。
 - **台灣在地化語法**：所有翻譯必須使用台灣繁體中文 (zh-TW)，並採用台灣商務與科技慣用語（例如：`Remuneration -> 報酬`、`Logistics -> 物流`、`Software -> 軟體`）。
 
 > 請直接輸出單一的 Markdown 表格。
