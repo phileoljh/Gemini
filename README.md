@@ -77,6 +77,17 @@ C:\Users\phileo\Desktop\Google Drive\KM\Gemini\
 
 ---
 
+## 🔗 推薦與參考來源 (References & Sources)
+
+本儲存庫中技能 (Skills) 的開發與設計，深受以下開源專案與官方資源的啟發，特別感謝以下重要參考來源：
+
+* 🚀 **[rominirani/antigravity-skills](https://github.com/rominirani/antigravity-skills)** - Antigravity 技能的基礎概念與核心框架參考。
+* 🧠 **[multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills)** - Andrej Karpathy 開發哲學之 AI 編碼輔助與極簡實作技能。
+* 🌐 **[google/skills](https://github.com/google/skills)** - Google 官方對於 Agent 技能開發的最佳實踐與架構指南。
+* ⚡ **[cloudflare/skills](https://github.com/cloudflare/skills)** - Cloudflare 無伺服器環境 (Workers / DO) 的 AI 智能助理技能參考。
+
+---
+
 ## 🔄 同步與更新指引 (Sync Guide)
 
 當您在不同專案中引入此儲存庫後，可以執行根目錄下的自動化同步工具：
