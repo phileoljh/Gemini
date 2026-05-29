@@ -36,11 +36,11 @@ Gather this context (ask if not provided):
 This skill supports 3 modes:
 
 ### Mode 1: Greenfield Macro & Asset Research (`GREENFIELD_RESEARCH`)
-Used when starting fresh on a new macroeconomic trend or asset class report. This mode builds a highly structured, deep-dive report featuring:
-*   **Executive Summary**: Core thesis and main gray rhinos.
-*   **LaTeX Mathematical Calculations**: Asset price sensitivity calculations (e.g., Duration sensitivity $\Delta P \approx -D \cdot \Delta y$).
-*   **Mermaid Flowcharts**: Explicit visualization of money and risk transmission.
-*   **Multi-Phase Sandbox Matrix**: Detailed table outlining chronological phases of yields, prices, and catalysts.
+Used when starting fresh on a new macroeconomic trend or asset class report. This mode abandons static SWOT analysis and instead utilizes the **"Four Macro Toolkits (四大總經模型組合拳)"**:
+1.  **PESTEL / Structural Scanning**: Broad scanning of structural blocks (Political, Economic, Social, Tech, Environmental, Legal).
+2.  **Mermaid Transmission & Sectoral Balances**: Explicit visualization of money flow, liquidity squeeze points, and transmission paths.
+3.  **The Trilogy Sandbox (Chronological Time-Series)**: Multi-phase matrix mapping the event over time (Trigger ➔ Friction ➔ Resolution).
+4.  **Merrill Lynch Investment Clock Alignment**: Translating the macro state into precise tactical asset allocation across equities, bonds, commodities, and FX/Cash.
 
 ### Mode 2: Thesis Sandbox & Critique (`CRITIQUE_AND_SANDBOX`)
 Used to stress-test a given investment view. The agent identifies hidden transmission gaps, challenges bullish/bearish assumptions, evaluates systemic liquidity risks, and structures a multi-phase "Trilogy" trajectory (e.g., phase 1: temporary drop, phase 2: sharp rebound, phase 3: crash/capitulation).
@@ -55,10 +55,10 @@ Used to compare current structural conditions with historical cycles. It systema
 
 ## Core Content Sections & Workflow
 
-### Phase 1: Macro Variable & Transmission Mapping
-1. Identify **Primary Catalysts** (e.g., supply shock, policy rate hiking, refinancing wave).
+### Phase 1: PESTEL Structural Scan & Transmission Mapping
+1. Conduct a **PESTEL macro scan** to identify the deep structural vulnerabilities and tail risks (avoiding static SWOT lists).
 2. Map out the **Transmission Path** (Catalyst ➔ Intermediary Variable ➔ Liquidity Effect ➔ Target Asset Impact).
-3. Draw a **Mermaid Diagram** to visually represent these forces. Never leave relationships ambiguous.
+3. Draw a **Mermaid Diagram** to visually represent these forces, specifically highlighting the flow of funds and liquidity breaking points.
 
 ### Phase 2: Quantitative Sensitivity & Math Formulations
 Avoid vague descriptions like "bond prices will fall when interest rates rise". Use exact financial math:
@@ -78,11 +78,17 @@ Format the sandbox as a rich Markdown table:
 | 階段 | 預期走勢 | 關鍵指標區間/目標價 | 核心驅動因素 | 政策與市場變動機制 |
 | :--- | :--- | :--- | :--- | :--- |
 
-### Phase 4: Tactical Action & Risk Mitigation Guidelines
-Deliver a clear, actionable guide with risk-hedging suggestions. Specifically:
-*   **Asset Class Selection**: Distinguish between unleveraged spot assets (e.g., TLT) and leveraged derivatives (e.g., TMF/options).
+### Phase 4: Tactical Action & Investment Clock Allocation
+Deliver a clear, actionable guide directly tied to the **Merrill Lynch Investment Clock**:
+*   **Macro Cycle Positioning**: Explicitly state whether the country/asset is entering Reflation, Overheating, Stagflation, or Deflation.
+*   **Asset Class Allocation**: Provide tactical weighting recommendations across Equities, Sovereign Bonds, Commodities, and FX/Cash based on the cycle.
 *   **Phased Entry/Exit Rules**: Use dollar-cost averaging or pyramid structures based on key macro triggers rather than arbitrary dates.
-*   **Tail Risk Identification**: Explicitly state the "Survival Condition" (e.g., avoiding margin calls during temporary liquidity spikes).
+*   **Tail Risk Identification**: Explicitly state the "Survival Condition" (e.g., avoiding margin calls, FX depletion limits).
+
+---
+
+## Anti-Static Analysis Rule (NO PURE SWOT)
+If a user asks for a "SWOT analysis" for macroeconomic research, acknowledge the request but **strictly override the static nature of SWOT**. You must append dynamic models (Mermaid Transmission, Trilogy Sandbox, Investment Clock) to ensure the analysis captures chronological evolution and liquidity dynamics, as SWOT alone cannot price assets or project time horizons.
 
 ---
 
