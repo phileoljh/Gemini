@@ -31,6 +31,7 @@ C:\Users\phileo\Desktop\Google Drive\KM\Gemini\
         ├── license-header-adder/ # 自動為新原始碼檔案添加企業授權標頭的工具
         ├── cloud/                # ☁️ Google Cloud 雲端架構與服務集成技能（AlloyDB, BigQuery, GKE 等）
         ├── CloudFlare/           # ⚡ Cloudflare 全套無伺服器與 Edge AI 開發技能（Workers, Agents SDK, Sandbox 等）
+        │   └── security-audit/   # 🛡️ 專業級資安審查技能（針對 Web App, API 與架構進行漏洞與滲透分析）
         └── AI_custom/            # 🧠 核心客製化 AI 專業能力模組 (Taiwan Context)
             ├── grammar-book-author/      # 英文文法教科書深度撰寫與語言學分析技能
             ├── skill-security-reviewer/  # 審查自訂技能之社交工程防範與安全漏洞技能
@@ -66,6 +67,11 @@ C:\Users\phileo\Desktop\Google Drive\KM\Gemini\
 * 自動排版為乾淨的 Markdown 欄位，去除雜訊。
 * 強制輸出符合台灣商業用語習慣的譯名（如：將 "Project Manager" 翻為 "專案經理" 而非 "項目經理"）。
 
+### 🔐 專業資安審查員 (`security-audit`)
+基於 Cloudflare 開源專案的高階資安審查技能，專注於發掘高威脅性的系統與程式碼漏洞：
+* 提供標準化漏洞掃描、商業邏輯缺陷測試以及架構層級的安全評估。
+* 強制產出結構化漏洞報告 (`REPORT.md`, `findings.json`)，明確標註風險等級與修復建議。
+
 ---
 
 ## ⚙️ 專案開發全局規範 (GEMINI.md)
@@ -85,6 +91,7 @@ C:\Users\phileo\Desktop\Google Drive\KM\Gemini\
 * 🧠 **[multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills)** - Andrej Karpathy 開發哲學之 AI 編碼輔助與極簡實作技能。
 * 🌐 **[google/skills](https://github.com/google/skills)** - Google 官方對於 Agent 技能開發的最佳實踐與架構指南。
 * ⚡ **[cloudflare/skills](https://github.com/cloudflare/skills)** - Cloudflare 無伺服器環境 (Workers / DO) 的 AI 智能助理技能參考。
+* 🛡️ **[cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill)** - 高階資安審查框架，提供程式碼漏洞掃描與架構滲透的標準化實作。
 
 ---
 
