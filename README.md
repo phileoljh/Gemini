@@ -99,3 +99,13 @@ C:\Users\phileo\Desktop\Google Drive\KM\Gemini\
 
 當您在不同專案中引入此儲存庫後，可以執行根目錄下的自動化同步工具：
 * 點擊 `sync.bat` 或 `sync1.bat`：將會讀取 `sync_config.ps1`，自動同步或更新本地的 Antigravity 智能配置，確保您的編碼助理隨時處於最強大、最合規的狀態！
+
+### 🆕 新舊版 IDE 路徑對照表
+
+本專案的同步腳本已全面升級，支援最新版 Antigravity IDE 架構，同時在腳本內部保留舊版邏輯做為歷史追溯。具體對照如下：
+
+| 項目 | 舊版 Antigravity 存放路徑 | 新版 Antigravity IDE 存放路徑 |
+| :--- | :--- | :--- |
+| **全域設定根目錄** | `%USERPROFILE%\.gemini\` | `%USERPROFILE%\.gemini\config\` |
+| **自訂功能包 (Skills & Workflows)**| `%USERPROFILE%\.gemini\antigravity\` | 目錄內容直接同步至 `%USERPROFILE%\.gemini\config\` (包含 `skills` 與 `global_workflows` 等) |
+| **全域規範檔案 (Global Rules)** | `%USERPROFILE%\.gemini\GEMINI.md` | 更名並存於 `%USERPROFILE%\.gemini\config\AGENTS.md` (同步保留舊版路徑一份) |
