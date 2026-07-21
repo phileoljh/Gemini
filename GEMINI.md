@@ -17,3 +17,9 @@
 ## 3. 開發流程規範 (Workflow Guidelines)
 - **規劃優先 (Plan First)**：針對任何實質的程式碼修改、功能開發或複雜分析，**必須先提交 `implementation_plan.md` 並獲得使用者核准後方可執行**。即使任務看起來簡單，也應簡要列出步驟確認邏輯。
 - **進度透明**：執行期間需透過 `task.md` 追蹤狀態，完工後需提供 `walkthrough.md` 進行變更說明與驗證展示。
+
+## 4. PowerShell 終端機指令串接規範
+> [!IMPORTANT]
+> **終端機指令執行最高規範 (CRITICAL PRIORITY)**
+> 在 Windows PowerShell 環境下執行連續終端機指令時，**絕對不能使用 `&&`**。
+> 你必須強制改用分號 `;` 來串接指令（例如：`git add . ; git commit -m "..."`），以免觸發語法錯誤。在每一次送出 PowerShell 指令前，必須對此進行強制自我審查。
