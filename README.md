@@ -16,27 +16,29 @@ C:\Users\phileo\Desktop\Google Drive\KM\Gemini\
 ├── README.md                     # 本說明文件
 ├── split_SOP.md                  # 本儲存庫從母專案拆分出來的標準作業程序 (SOP)
 ├── sync.bat / sync1.bat          # 智能助理環境同步/配置自動化腳本
-├── sync_config.ps1               # 同步設定設定腳本 (PowerShell)
+├── sync_config.ps1               # 同步設定腳本 (PowerShell，自動同步並清理舊版殘留)
 └── antigravity/                  # Antigravity 核心增強目錄
     ├── global_workflows/         # 全域工作流 (工作流指引)
     │   ├── core-development-workflow.md  # 🚀 核心開發流程（規劃優先、原子化執行、強制中斷機制）
     │   └── review.md                     # 🔍 程式碼審查與品質控制工作流
-    └── skills/                   # 智能助理客製化增強技能庫 (Custom Skills)
+    ├── plugins/                  # 🧩 官方標準插件包 (Plugin Bundles，自動探索與載入)
+    │   ├── ai-custom/            # 🧠 核心客製化 AI 專業能力模組 (Taiwan Context)
+    │   │   ├── plugin.json       # 插件宣告檔
+    │   │   └── skills/           # 包含 etf-prospect-report, grammar-book-author, toeic-vocab-assistant 等
+    │   ├── cloudflare/           # ⚡ Cloudflare 全套無伺服器與 Edge AI 開發技能包
+    │   │   ├── plugin.json       # 插件宣告檔
+    │   │   └── skills/           # 包含 workers-best-practices, wrangler, agents-sdk, security-audit 等
+    │   └── google-cloud/         # ☁️ Google Cloud 與 Firebase 雲端架構技能包
+    │       ├── plugin.json       # 插件宣告檔
+    │       └── skills/           # 包含 gemini-api, bigquery-basics, gke-basics 等
+    └── skills/                   # 🛠️ 獨立全域通用技能 (Standalone Skills)
         ├── adk-tool-scaffold/    # 增強工具腳手架（自動生成客製化 Tool 類別）
         ├── code-review/          # 自動化程式碼審查與 Bug 掃描技能
         ├── database-schema-validator/  # SQL Schema 安全與命名規範自動驗證器
         ├── git-commit-formatter/ # 規範化 Commit Message 格式化工具 (Conventional Commits)
         ├── how/                  # 深層系統架構剖析與設計模式評估技能
         ├── json-to-pydantic/     # JSON 結構自動轉換為 Pydantic 資料模型工具
-        ├── license-header-adder/ # 自動為新原始碼檔案添加企業授權標頭的工具
-        ├── cloud/                # ☁️ Google Cloud 雲端架構與服務集成技能（AlloyDB, BigQuery, GKE 等）
-        ├── CloudFlare/           # ⚡ Cloudflare 全套無伺服器與 Edge AI 開發技能（Workers, Agents SDK, Sandbox 等）
-        │   └── security-audit/   # 🛡️ 專業級資安審查技能（針對 Web App, API 與架構進行漏洞與滲透分析）
-        └── AI_custom/            # 🧠 核心客製化 AI 專業能力模組 (Taiwan Context)
-            ├── grammar-book-author/      # 英文文法教科書深度撰寫與語言學分析技能
-            ├── skill-security-reviewer/  # 審查自訂技能之社交工程防範與安全漏洞技能
-            ├── toeic-vocab-assistant/    # 專業多益 (TOEIC) 860+ 繁體中文商業單字資料庫庫建構技能
-            └── windows-script-guard/     # 🛡️ 防止在 Windows 環境下編寫 PowerShell/Python 出現編碼或語法錯誤的規範技能
+        └── license-header-adder/ # 自動為新原始碼檔案添加企業授權標頭的工具
 ```
 
 ---
@@ -98,14 +100,25 @@ C:\Users\phileo\Desktop\Google Drive\KM\Gemini\
 ## 🔄 同步與更新指引 (Sync Guide)
 
 當您在不同專案中引入此儲存庫後，可以執行根目錄下的自動化同步工具：
-* 點擊 `sync.bat` 或 `sync1.bat`：將會讀取 `sync_config.ps1`，自動同步或更新本地的 Antigravity 智能配置，確保您的編碼助理隨時處於最強大、最合規的狀態！
+* **PowerShell 啟動器**：雙擊 [`sync.bat`](file:///d:/Gemini/sync.bat)（將呼叫 [`sync_config.ps1`](file:///d:/Gemini/sync_config.ps1) 執行自動同步與舊版殘留清理）。
+* **純 Batch 獨立模式**：雙擊 [`sync1.bat`](file:///d:/Gemini/sync1.bat)（適用於無法執行 PowerShell 之受限環境）。
+
+### 🧩 官方 Plugin 插件機制（零配置自動載入）
+
+本專案全面導入 Antigravity 官方標準的 **Plugin 架構**：
+1. **零設定檔維護 (Zero-Config)**：不再依賴且已完全移除易失效的 `skills.json`。只要將分類技能置於 `plugins/<plugin_name>/skills/` 並配置 `plugin.json`，Antigravity 便會在啟動或開新對話時**自動探索並加載所有技能**。
+2. **自動清理舊版殘留**：同步腳本已內建清理機制，會自動清除 `%USERPROFILE%\.gemini\config\` 底下的舊版 `skills.json` 及舊分類資料夾，確保全域環境乾淨且零衝突。
 
 ### 🆕 新舊版 IDE 路徑對照表
 
 本專案的同步腳本已全面升級，支援最新版 Antigravity IDE 架構，同時在腳本內部保留舊版邏輯做為歷史追溯。具體對照如下：
 
-| 項目 | 舊版 Antigravity 存放路徑 | 新版 Antigravity IDE 存放路徑 |
-| :--- | :--- | :--- |
-| **全域設定根目錄** | `%USERPROFILE%\.gemini\` | `%USERPROFILE%\.gemini\config\` |
-| **自訂功能包 (Skills & Workflows)**| `%USERPROFILE%\.gemini\antigravity\` | 目錄內容直接同步至 `%USERPROFILE%\.gemini\config\` (包含 `skills` 與 `global_workflows` 等) |
-| **全域規範檔案 (Global Rules)** | `%USERPROFILE%\.gemini\GEMINI.md` | 更名並存於 `%USERPROFILE%\.gemini\config\AGENTS.md` (同步保留舊版路徑一份) |
+| 項目 | 舊版 Antigravity 存放路徑 | 新版 Antigravity IDE 存放路徑 | 說明 |
+| :--- | :--- | :--- | :--- |
+| **全域設定根目錄** | `%USERPROFILE%\.gemini\` | `%USERPROFILE%\.gemini\config\` | 新版全域配置集中存放位置 |
+| **插件包 (Plugins)** | 無 (舊版以子目錄存放於 skills) | `%USERPROFILE%\.gemini\config\plugins\` | 內含 `plugin.json` 與所屬技能，自動加載 |
+| **通用技能 (Skills)** | `%USERPROFILE%\.gemini\antigravity\skills\` | `%USERPROFILE%\.gemini\config\skills\` | 獨立通用技能 (Standalone Skills) |
+| **工作流 (Workflows)** | `%USERPROFILE%\.gemini\antigravity\global_workflows\` | `%USERPROFILE%\.gemini\config\global_workflows\` | 全域開發與審查工作流指引 |
+| **全域規範檔案 (Global Rules)** | `%USERPROFILE%\.gemini\GEMINI.md` | `%USERPROFILE%\.gemini\config\AGENTS.md` | 全域通用約束與行為規範 (同步保留舊版路徑一份) |
+| **技能清單檔 (skills.json)** | 舊版自訂配置清單 | **已完全廢棄並自動清理** | 改由 Plugin 自動探索，無須手動維護 |
+

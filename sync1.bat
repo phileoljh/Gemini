@@ -39,11 +39,16 @@ if exist "%SourceDir%GEMINI.md" (
 
 REM === Item 2: Sync antigravity (Directory) ===
 if exist "%SourceDir%antigravity\" (
-    echo [SYNC] Syncing item: antigravity contents (skills, workflows, etc)
+    echo [SYNC] Syncing item: antigravity contents (plugins, skills, workflows, etc)
     echo        From: %SourceDir%antigravity\*
     echo        To  : %DestConfigDir%
     
-    REM [舊版紀錄] xcopy "%SourceDir%antigravity" "%DestDir%\antigravity" /E /I /H /Y /C >nul
+    REM Clean legacy items
+    if exist "%DestConfigDir%\skills.json" del /F /Q "%DestConfigDir%\skills.json" >nul 2>&1
+    if exist "%DestConfigDir%\skills\AI_custom" rmdir /S /Q "%DestConfigDir%\skills\AI_custom" >nul 2>&1
+    if exist "%DestConfigDir%\skills\CloudFlare" rmdir /S /Q "%DestConfigDir%\skills\CloudFlare" >nul 2>&1
+    if exist "%DestConfigDir%\skills\cloud" rmdir /S /Q "%DestConfigDir%\skills\cloud" >nul 2>&1
+    
     xcopy "%SourceDir%antigravity\*" "%DestConfigDir%\" /E /I /H /Y /C >nul
 ) else (
     echo [WARN] Source item not found: %SourceDir%antigravity

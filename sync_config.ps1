@@ -20,13 +20,28 @@ if (!(Test-Path -Path $DestConfigDir)) {
     Write-Host "[INFO] 已建立新版目標目錄: $DestConfigDir" -ForegroundColor Yellow
 }
 
-# --- 1. 同步 antigravity 資料夾內的所有內容 (包含 skills, workflows 等) ---
+# --- 1. 同步自訂功能包 (plugins, skills, workflows 等) ---
 $SrcAntigravity = Join-Path -Path $SourceDir -ChildPath "antigravity"
 if (Test-Path -Path $SrcAntigravity) {
-    Write-Host "[SYNC] 正在同步自訂功能包 (antigravity 內所有項目)" -ForegroundColor White
+    Write-Host "[SYNC] 正在同步自訂功能包 (plugins, skills, workflows 等)" -ForegroundColor White
     Write-Host "       從: $SrcAntigravity" -ForegroundColor Gray
     Write-Host "       到: $DestConfigDir" -ForegroundColor Gray
-    # [舊版紀錄] Copy-Item -Path $SrcPath -Destination $DestDir -Recurse -Force
+    
+    # 清理舊版已廢棄的殘留項目 (如 skills.json 與舊分類目錄)
+    $LegacyItems = @(
+        (Join-Path $DestConfigDir "skills.json"),
+        (Join-Path $DestConfigDir "skills\AI_custom"),
+        (Join-Path $DestConfigDir "skills\CloudFlare"),
+        (Join-Path $DestConfigDir "skills\cloud")
+    )
+    foreach ($item in $LegacyItems) {
+        if (Test-Path -Path $item) {
+            Remove-Item -Path $item -Recurse -Force -ErrorAction SilentlyContinue
+            Write-Host "[CLEAN] 已清理舊版殘留項目: $item" -ForegroundColor DarkGray
+        }
+    }
+
+    # 同步新版目錄
     Copy-Item -Path "$SrcAntigravity\*" -Destination $DestConfigDir -Recurse -Force
 } else {
     Write-Warning "[WARN] 找不到來源項目: $SrcAntigravity"
