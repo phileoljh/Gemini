@@ -29,3 +29,10 @@
 > 在執行終端機指令時，**請盡量避免將多個指令串接在同一行**（絕對禁止使用 `&&`，也應避免使用分號 `;` 串接）。
 > 由於系統的安全沙盒與權限白名單機制（例如單獨允許了 `git status`、`git log`），將指令串接為複合指令極易被系統判定為未知指令而遭到安全阻擋。
 > **請將需要連續執行的指令，拆分成多次獨立的發送動作**，以確保指令能順利通過權限驗證並執行。
+
+## 5. Windows 與 Google Drive 檔案 I/O 防卡死規範 (File Lock & Hang Prevention)
+> [!IMPORTANT]
+> **避免終端機掛起與雲端檔案鎖衝突 (CRITICAL PRIORITY)**
+> 1. **嚴禁使用 PowerShell 讀取大檔**：在終端機中，絕對禁止使用 `Get-Content`、`type` 或 `cat` 讀取工作區的中文 Markdown 或大型檔案，避免因 PowerShell 編碼轉換、權限檢查或 Google Drive 本機同步軟體搶佔檔案鎖（Sharing Violation）而陷入無限等待 (Hang)。
+> 2. **優先採用 Python 串流讀寫**：需讀取或覆寫工作區檔案時，一律透過 Python 腳本並明確指定 `encoding='utf-8'` 進行讀寫，以毫秒級速度釋放檔案控制代碼 (File Handle)。
+> 3. **字元集死結處置**：若遭遇 `failed to detect charset`，嚴格遵照 `windows-script-guard` 規範以 Python 進行非破壞性截斷覆寫，嚴禁刪除檔案。
