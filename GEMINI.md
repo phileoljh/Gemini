@@ -30,9 +30,9 @@
 > 由於系統的安全沙盒與權限白名單機制（例如單獨允許了 `git status`、`git log`），將指令串接為複合指令極易被系統判定為未知指令而遭到安全阻擋。
 > **請將需要連續執行的指令，拆分成多次獨立的發送動作**，以確保指令能順利通過權限驗證並執行。
 
-## 5. Windows 與 Google Drive 檔案 I/O 防卡死規範 (File Lock & Hang Prevention)
+## 5. Windows 與 Google Drive 檔案 I/O 防卡死與最小化干擾規範 (File Lock & Minimal Interruption)
 > [!IMPORTANT]
-> **避免終端機掛起與雲端檔案鎖衝突 (CRITICAL PRIORITY)**
-> 1. **嚴禁使用 PowerShell 讀取大檔**：在終端機中，絕對禁止使用 `Get-Content`、`type` 或 `cat` 讀取工作區的中文 Markdown 或大型檔案，避免因 PowerShell 編碼轉換、權限檢查或 Google Drive 本機同步軟體搶佔檔案鎖（Sharing Violation）而陷入無限等待 (Hang)。
-> 2. **優先採用 Python 串流讀寫**：需讀取或覆寫工作區檔案時，一律透過 Python 腳本並明確指定 `encoding='utf-8'` 進行讀寫，以毫秒級速度釋放檔案控制代碼 (File Handle)。
-> 3. **字元集死結處置**：若遭遇 `failed to detect charset`，嚴格遵照 `windows-script-guard` 規範以 Python 進行非破壞性截斷覆寫，嚴禁刪除檔案。
+> **工具優先級與檔案鎖衝突防範 (CRITICAL PRIORITY)**
+> 1. **優先使用 IDE 原生工具（避免無謂授權彈窗）**：日常檔案檢視與修改，優先使用系統內建的 `view_file`、`replace_file_content`、`multi_replace_file_content` 與 `write_to_file`。原生工具具備毫秒級非阻塞 I/O，完全不會與 Google Drive 搶佔檔案鎖，且全程背景靜默執行，避免頻繁觸發終端機權限確認視窗。
+> 2. **嚴禁在終端機使用 PowerShell 讀寫大檔**：在終端機中，嚴禁使用 `Get-Content`、`Set-Content`、`Out-File`、`type` 或 `cat` 讀寫工作區檔案，避免因 PowerShell 編碼探測或管線未釋放導致與 Google Drive 同步軟體衝突掛起 (Hang)。
+> 3. **終端機指令精準調用（嚴禁非必要測試腳本）**：Git 操作、專案建置等必要終端作業照常執行；但終端機 Python 腳本絕非日常檔案編輯手段，僅限於遭遇 `failed to detect charset` 等極端字元集死結時作為備援，嚴禁為了一般文字編輯而在終端機反覆發送零碎的 Python 測試指令干擾使用者體驗。
